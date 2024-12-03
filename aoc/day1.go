@@ -1,33 +1,21 @@
 package aoc
 
 import (
-	"bufio"
 	"fmt"
 	"math"
-	"os"
 	"sort"
 	"strconv"
 	"strings"
 )
 
-func check(e error) {
-	if e != nil {
-		panic(e)
-	}
-}
-
-func Level1(inputFileName string) {
+func Day1Level1(inputFileName string) {
 	// Read the input file
-	file, err := os.Open(inputFileName)
-	check(err)
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
+	lines := readFileAsLines(inputFileName)
 
 	leftValues := make([]int, 0)
 	rightValues := make([]int, 0)
-	for scanner.Scan() {
-		values := strings.Split(scanner.Text(), "   ")
+	for _, line := range lines {
+		values := strings.Split(line, "   ")
 		val, err := strconv.Atoi(values[0])
 		check(err)
 		leftValues = append(leftValues, val)
@@ -40,28 +28,24 @@ func Level1(inputFileName string) {
 	sort.Ints(leftValues)
 	sort.Ints(rightValues)
 
-	sum := 0.0
+	sum := 0
 
 	for i, val := range leftValues {
-		sum += math.Abs(float64(val) - float64(rightValues[i]))
+		sum += int(math.Abs(float64(val) - float64(rightValues[i])))
 	}
 
 	fmt.Println(sum)
 
 }
 
-func Level2(inputFileName string) {
+func Day1Level2(inputFileName string) {
 	// Read the input file
-	file, err := os.Open(inputFileName)
-	check(err)
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
+	lines := readFileAsLines(inputFileName)
 
 	leftValues := make([]int, 0)
 	rightValues := make(map[int]int)
-	for scanner.Scan() {
-		values := strings.Split(scanner.Text(), "   ")
+	for _, line := range lines {
+		values := strings.Split(line, "   ")
 
 		val, err := strconv.Atoi(values[0])
 		check(err)
