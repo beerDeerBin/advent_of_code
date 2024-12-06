@@ -1,13 +1,12 @@
 package aoc
 
 import (
-	"fmt"
 	"math"
 	"strconv"
 	"strings"
 )
 
-func Day2Level1(inputFileName string) {
+func Day2Level1(inputFileName string) int {
 	// Read the input file
 	lines := readFileAsLines(inputFileName)
 
@@ -17,7 +16,8 @@ func Day2Level1(inputFileName string) {
 			safeLevel++
 		}
 	}
-	fmt.Println(safeLevel)
+	
+	return safeLevel
 }
 
 func checkLevel(level string) (isSafe bool) {
@@ -52,7 +52,7 @@ func checkLevel(level string) (isSafe bool) {
 	return true
 }
 
-func Day2Level2(inputFileName string) {
+func Day2Level2(inputFileName string) int {
 	// Read the input file
 	lines := readFileAsLines(inputFileName)
 
@@ -79,7 +79,8 @@ func Day2Level2(inputFileName string) {
 			}
 		}
 	}
-	fmt.Println(safeLevel)
+	
+	return safeLevel
 }
 
 func checkLevel2(level []int) (isSafe bool) {

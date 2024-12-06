@@ -1,14 +1,13 @@
 package aoc
 
 import (
-	"fmt"
 	"math"
 	"sort"
 	"strconv"
 	"strings"
 )
 
-func Day1Level1(inputFileName string) {
+func Day1Level1(inputFileName string) int {
 	// Read the input file
 	lines := readFileAsLines(inputFileName)
 
@@ -33,11 +32,10 @@ func Day1Level1(inputFileName string) {
 		sum += int(math.Abs(float64(val) - float64(rightValues[i])))
 	}
 
-	fmt.Println(sum)
-
+	return sum
 }
 
-func Day1Level2(inputFileName string) {
+func Day1Level2(inputFileName string) int {
 	// Read the input file
 	lines := readFileAsLines(inputFileName)
 
@@ -62,6 +60,5 @@ func Day1Level2(inputFileName string) {
 		sum += similarity_score
 	}
 
-	fmt.Println(sum)
-
+	return sum
 }
