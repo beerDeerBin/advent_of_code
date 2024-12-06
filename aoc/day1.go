@@ -29,7 +29,6 @@ func Day1Level1(inputFileName string) {
 	sort.Ints(rightValues)
 
 	sum := 0
-
 	for i, val := range leftValues {
 		sum += int(math.Abs(float64(val) - float64(rightValues[i])))
 	}
