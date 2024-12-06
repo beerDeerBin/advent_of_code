@@ -1,14 +1,13 @@
 package aoc
 
 import (
-	"fmt"
 	"regexp"
 	"sort"
 	"strconv"
 	"strings"
 )
 
-func Day3Level1(inputFileName string) {
+func Day3Level1(inputFileName string) int {
 	// Read the input file
 	lines := readFileAsLines(inputFileName)
 
@@ -28,7 +27,7 @@ func Day3Level1(inputFileName string) {
 		}
 	}
 
-	fmt.Println(sum)
+	return sum
 }
 
 type Instruction struct {
@@ -37,7 +36,7 @@ type Instruction struct {
 	arguments2 int 
 }
 
-func Day3Level2(inputFileName string) {
+func Day3Level2(inputFileName string) int {
 	// Read the input file
 	lines := readFileAsLines(inputFileName)
 
@@ -85,7 +84,7 @@ func Day3Level2(inputFileName string) {
 		}
 	}
 
-	fmt.Println(sum)
+	return sum
 }
 
 func getMulNumber(line string, startIdx int, endIdx int) []int {

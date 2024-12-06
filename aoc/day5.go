@@ -1,12 +1,11 @@
 package aoc
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 )
 
-func Day5Level1(inputFileName string) {
+func Day5Level1(inputFileName string) int {
 	lines := readFileAsLines(inputFileName)
 
 	rules := make(map[string]bool, 0)
@@ -39,7 +38,7 @@ func Day5Level1(inputFileName string) {
 		}
 	}
 
-	fmt.Println(sum)
+	return sum
 }
 
 func verifyRule(rules map[string]bool, before int, after int) bool {
@@ -50,7 +49,7 @@ func verifyRule(rules map[string]bool, before int, after int) bool {
 	return false
 }
 
-func Day5Level2(inputFileName string) {
+func Day5Level2(inputFileName string) int {
 	lines := readFileAsLines(inputFileName)
 
 	rules := make(map[string]bool, 0)
@@ -85,7 +84,7 @@ func Day5Level2(inputFileName string) {
 		}
 	}
 
-	fmt.Println(sum)
+	return sum
 }
 
 func orderPage(rules map[string]bool, page []int) []int {

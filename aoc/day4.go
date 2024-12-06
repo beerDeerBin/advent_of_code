@@ -1,9 +1,7 @@
 package aoc
 
 import (
-	"fmt"
 	"regexp"
-	"strconv"
 )
 
 var reForward = regexp.MustCompile(`XMAS`)
@@ -12,7 +10,7 @@ var reBackward = regexp.MustCompile(`SAMX`)
 var reSmallForward = regexp.MustCompile(`MAS`)
 var reSmallBackward = regexp.MustCompile(`SAM`)
 
-func Day4Level1(inputFileName string) {
+func Day4Level1(inputFileName string)  int{
 	lines := readFileAsLines(inputFileName)
 
 	foundVericalFW := 0
@@ -53,11 +51,10 @@ func Day4Level1(inputFileName string) {
 		foundVericalBW += y
 	}
 
-	s := strconv.Itoa(foundVericalBW + foundVericalFW)
-	fmt.Println(s)
+	return foundVericalBW + foundVericalFW
 }
 
-func Day4Level2(inputFileName string) {
+func Day4Level2(inputFileName string) int {
 	lines := readFileAsLines(inputFileName)
 
 	matrix := make([][]rune, len(lines))
@@ -79,7 +76,7 @@ func Day4Level2(inputFileName string) {
 		}
 	}
 
-	fmt.Println(validXmas)
+	return validXmas
 }
 
 func checkSmallMatrix(matrix [][]rune) bool {
