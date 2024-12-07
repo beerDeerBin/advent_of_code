@@ -17,7 +17,8 @@ type AoCDay struct {
 	Levels []AoCLevel
 }
 
-var lastDay int = 6
+var lastDay int = 7
+var debugMode bool = false
 
 var funcs = map[string]func(string) int{
 	"Day1Level1": aoc.Day1Level1,
@@ -32,6 +33,8 @@ var funcs = map[string]func(string) int{
 	"Day5Level2": aoc.Day5Level2,
 	"Day6Level1": aoc.Day6Level1,
 	"Day6Level2": aoc.Day6Level2,
+	"Day7Level1": aoc.Day7Level1,
+	"Day7Level2": aoc.Day7Level2,
 }
 
 func main() {
@@ -65,8 +68,12 @@ func main() {
 	fmt.Println("Advent of Code 2024")
 	fmt.Println("")
 
-	for _, day := range days {
-		executeDay(day)
+	if debugMode {
+		executeDay(days[lastDay-1])
+	} else {
+		for _, day := range days {
+			executeDay(day)
+		}
 	}
 }
 
