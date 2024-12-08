@@ -34,6 +34,36 @@ type Pos struct {
 }
 
 func Day6Level1(inputFileName string) int {
+	
+	cell, currentMovement, guardX, guardY := parseInputDay6(inputFileName)
+
+	// move the guard (add start position to visited cells counter)
+	pos := []Pos{{guardX, guardY}}
+	visited := append(moveGuard(cell, guardX, guardY, currentMovement), pos...)
+
+	return len(visited)
+}
+
+func Day6Level2(inputFileName string) int {
+
+	cell, currentMovement, guardX, guardY := parseInputDay6(inputFileName)
+
+	startMovement := currentMovement
+	visited := moveGuard(cell, guardX, guardY, currentMovement)
+
+	loops := 0
+	for i := 0; i < len(visited); i++ {
+		cell[visited[i].y][visited[i].x] = '#'
+		if checkForLoop(cell, guardX, guardY, startMovement, make(map[string]bool)) {
+			loops++
+		}
+		cell[visited[i].y][visited[i].x] = '.'
+	}
+
+	return loops
+}
+
+func parseInputDay6(inputFileName string) ([][]rune, int, int, int) {
 	lines := readFileAsLines(inputFileName)
 
 	cell := make([][]rune, len(lines))
@@ -51,11 +81,7 @@ func Day6Level1(inputFileName string) int {
 		}
 	}
 
-	// move the guard (add start position to visited cells counter)
-	pos := []Pos{{guardX, guardY}}
-	visited := append(moveGuard(cell, guardX, guardY, currentMovement), pos...)
-
-	return len(visited)
+	return cell, currentMovement, guardX, guardY
 }
 
 func moveGuard(cell [][]rune, x int, y int, currentMovement int) []Pos {
@@ -81,40 +107,6 @@ func moveGuard(cell [][]rune, x int, y int, currentMovement int) []Pos {
 		cell[y][x] = intToMovement[currentMovement]
 	}
 	return append(moveGuard(cell, x, y, currentMovement), pos...)
-}
-
-func Day6Level2(inputFileName string) int {
-
-	lines := readFileAsLines(inputFileName)
-
-	cell := make([][]rune, len(lines))
-	currentMovement := 0
-	guardX := 0
-	guardY := 0
-
-	for i, line := range lines {
-		cell[i] = []rune(line)
-		location := re.FindStringIndex(line)
-		if location != nil {
-			currentMovement = movementToInt[line[location[0]:location[1]]]
-			guardX = location[0]
-			guardY = i
-		}
-	}
-
-	startMovement := currentMovement
-	visited := moveGuard(cell, guardX, guardY, currentMovement)
-
-	loops := 0
-	for i := 0; i < len(visited); i++ {
-		cell[visited[i].y][visited[i].x] = '#'
-		if checkForLoop(cell, guardX, guardY, startMovement, make(map[string]bool)) {
-			loops++
-		}
-		cell[visited[i].y][visited[i].x] = '.'
-	}
-
-	return loops
 }
 
 func checkForLoop(cell [][]rune, x int, y int, currentMovement int, encounterTable map[string]bool) bool {

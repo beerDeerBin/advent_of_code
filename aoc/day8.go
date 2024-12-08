@@ -12,6 +12,27 @@ type Position struct {
 }
 
 func Day8Level1(inputFileName string) int {
+
+	antennas, antinodes, maxRow, maxCol := parseInputDay8(inputFileName)
+
+	for _, value := range antennas {
+		placeAntinodes(value, antinodes, maxRow, maxCol, false)
+	}
+
+	return len(antinodes)
+}
+
+func Day8Level2(inputFileName string) int {
+	antennas, antinodes, maxRow, maxCol := parseInputDay8(inputFileName)
+
+	for _, value := range antennas {
+		placeAntinodes(value, antinodes, maxRow, maxCol, true)
+	}
+
+	return len(antinodes)
+}
+
+func parseInputDay8(inputFileName string) (map[string][]Position, map[Position]bool, int, int) {
 	lines := readFileAsLines(inputFileName)
 
 	antennas := make(map[string][]Position, 0)
@@ -27,11 +48,7 @@ func Day8Level1(inputFileName string) int {
 		}
 	}
 
-	for _, value := range antennas {
-		placeAntinodes(value, antinodes, len(lines)-1, len(lines[0])-1, false)
-	}
-
-	return len(antinodes)
+	return antennas, antinodes, len(lines)-1, len(lines[0])-1
 }
 
 func placeAntinodes(antennas []Position, antinodes map[Position]bool, maxRow int, maxCol int, isExtendend bool) {
@@ -44,11 +61,9 @@ func placeAntinodes(antennas []Position, antinodes map[Position]bool, maxRow int
 		})
 
 		continueFor := true
-		var startIdx int
+		startIdx := 1
 		if isExtendend {
 			startIdx = 0
-		} else {
-			startIdx = 1
 		}
 		for i := startIdx; continueFor; i++ {
 			antinodePosUp := Position{}
@@ -105,27 +120,4 @@ func generateCombinations[T any](items []T) [][2]T {
 
 func calcualteDistance(antenna1 Position, antenna2 Position) (int, int) {
 	return int(math.Abs(float64(antenna1.posX - antenna2.posX))), int(math.Abs(float64(antenna1.posY - antenna2.posY)))
-}
-
-func Day8Level2(inputFileName string) int {
-	lines := readFileAsLines(inputFileName)
-
-	antennas := make(map[string][]Position, 0)
-	antinodes := make(map[Position]bool, 0)
-
-	re := regexp.MustCompile(`\d|\w`)
-
-	for row, line := range lines {
-		positions := re.FindAllStringIndex(line, -1)
-		for _, position := range positions {
-			key := line[position[0]:position[1]]
-			antennas[key] = append(antennas[key], Position{position[0], row})
-		}
-	}
-
-	for _, value := range antennas {
-		placeAntinodes(value, antinodes, len(lines)-1, len(lines[0])-1, true)
-	}
-
-	return len(antinodes)
 }

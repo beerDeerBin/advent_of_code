@@ -6,10 +6,55 @@ import (
 )
 
 func Day5Level1(inputFileName string) int {
+
+	rules, pages := parseInputDay5(inputFileName)
+	sum := 0
+
+	for _, page := range pages {
+		isValid := true
+		for i := range page {
+			for j := i + 1; j < len(page); j++ {
+				if !verifyRule(rules, page[i], page[j]) {
+					isValid = false
+				}
+			}
+		}
+		if isValid {
+			sum += page[len(page)/2]
+		}
+	}
+
+	return sum
+}
+
+func Day5Level2(inputFileName string) int {
+	
+	rules, pages := parseInputDay5(inputFileName)
+	sum := 0
+
+	for _, page := range pages {
+		isValid := true
+		for i := range page {
+			for j := i + 1; j < len(page); j++ {
+				if !verifyRule(rules, page[i], page[j]) {
+					isValid = false
+				}
+			}
+		}
+		if !isValid {
+			orderPage := orderPage(rules, page)
+			sum += orderPage[len(orderPage)/2]
+		}
+	}
+
+	return sum
+}
+
+func parseInputDay5(inputFileName string) (map[string]bool, [][]int) {
 	lines := readFileAsLines(inputFileName)
 
 	rules := make(map[string]bool, 0)
-	sum := 0
+	pages := make([][]int, 0)
 
 	for _, line := range lines {
 		if line != "" {
@@ -23,22 +68,12 @@ func Day5Level1(inputFileName string) int {
 					check(err)
 					numbers = append(numbers, number)
 				}
-				isValid := true
-				for i := range numbers {
-					for j := i + 1; j < len(numbers); j++ {
-						if !verifyRule(rules, numbers[i], numbers[j]) {
-							isValid = false
-						}
-					}
-				}
-				if isValid {
-					sum += numbers[len(numbers)/2]
-				}
+				pages = append(pages, numbers)
 			}
 		}
 	}
 
-	return sum
+	return rules, pages
 }
 
 func verifyRule(rules map[string]bool, before int, after int) bool {
@@ -47,44 +82,6 @@ func verifyRule(rules map[string]bool, before int, after int) bool {
 		return true
 	}
 	return false
-}
-
-func Day5Level2(inputFileName string) int {
-	lines := readFileAsLines(inputFileName)
-
-	rules := make(map[string]bool, 0)
-	sum := 0
-
-	for _, line := range lines {
-		if line != "" {
-			if strings.Contains(line, "|") {
-				rules[line] = true
-			} else {
-				splits := strings.Split(line, ",")
-				numbers := make([]int, 0)
-				for _, split := range splits {
-					number, err := strconv.Atoi(split)
-					check(err)
-					numbers = append(numbers, number)
-				}
-				isValid := true
-				for i := range numbers {
-					for j := i + 1; j < len(numbers); j++ {
-						if !verifyRule(rules, numbers[i], numbers[j]) {
-							isValid = false
-							break
-						}
-					}
-				}
-				if !isValid {
-					numbers = orderPage(rules, numbers)
-					sum += numbers[len(numbers)/2]
-				}
-			}
-		}
-	}
-
-	return sum
 }
 
 func orderPage(rules map[string]bool, page []int) []int {

@@ -11,18 +11,15 @@ var reSmallForward = regexp.MustCompile(`MAS`)
 var reSmallBackward = regexp.MustCompile(`SAM`)
 
 func Day4Level1(inputFileName string)  int{
-	lines := readFileAsLines(inputFileName)
-
+	
 	foundVericalFW := 0
 	foundVericalBW := 0
+	matrix := parseInputDay4(inputFileName)
 
-	matrix := make([][]rune, len(lines))
-
-	for i, line := range lines {
-		x, y := searchLineVertical(line, reForward, reBackward)
+	for _, line := range matrix {
+		x, y := searchLineVertical(string(line), reForward, reBackward)
 		foundVericalFW += x
 		foundVericalBW += y
-		matrix[i] = []rune(line)
 	}
 
 	matrixRotaded := rotate90Clockwise(matrix)
@@ -55,14 +52,8 @@ func Day4Level1(inputFileName string)  int{
 }
 
 func Day4Level2(inputFileName string) int {
-	lines := readFileAsLines(inputFileName)
-
-	matrix := make([][]rune, len(lines))
-
-	for i, line := range lines {
-		matrix[i] = []rune(line)
-	}
-
+	
+	matrix := parseInputDay4(inputFileName)
 	validXmas := 0
 	for row := range len(matrix) - 2 {
 		smallMatrix := make([][]rune, 3)
@@ -77,6 +68,17 @@ func Day4Level2(inputFileName string) int {
 	}
 
 	return validXmas
+}
+
+func parseInputDay4(inputFileName string) [][]rune {
+	lines := readFileAsLines(inputFileName)
+	matrix := make([][]rune, len(lines))
+
+	for i, line := range lines {
+		matrix[i] = []rune(line)
+	}
+
+	return matrix
 }
 
 func checkSmallMatrix(matrix [][]rune) bool {

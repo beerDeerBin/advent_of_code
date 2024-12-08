@@ -11,7 +11,32 @@ type Equation struct {
 }
 
 func Day7Level1(inputFileName string) int {
-	// Read the input file
+	
+	equations := parseInputDay7(inputFileName)
+	sum := 0
+	for _, equation := range equations {
+		if testAllPossibleEquations(equation.operands, equation.answer, []string{"add", "mul"}) {
+			sum += equation.answer
+		}
+	}
+
+	return sum
+}
+
+func Day7Level2(inputFileName string) int {
+
+	equations := parseInputDay7(inputFileName)
+	sum := 0
+	for _, equation := range equations {
+		if testAllPossibleEquations(equation.operands, equation.answer, []string{"add", "mul", "concat"}) {
+			sum += equation.answer
+		}
+	}
+
+	return sum
+}
+
+func parseInputDay7(inputFileName string) []Equation {
 	lines := readFileAsLines(inputFileName)
 
 	equations := make([]Equation, len(lines))
@@ -33,14 +58,7 @@ func Day7Level1(inputFileName string) int {
 		equations[i] = equation
 	}
 
-	sum := 0
-	for _, equation := range equations {
-		if testAllPossibleEquations(equation.operands, equation.answer, []string{"add", "mul"}) {
-			sum += equation.answer
-		}
-	}
-
-	return sum
+	return equations
 }
 
 func testAllPossibleEquations(numbers []int, answer int, ops []string) bool {
@@ -62,38 +80,4 @@ func testAllPossibleEquations(numbers []int, answer int, ops []string) bool {
 		}
 	}
 	return false
-}
-
-func Day7Level2(inputFileName string) int {
-	// Read the input file
-	// Read the input file
-	lines := readFileAsLines(inputFileName)
-
-	equations := make([]Equation, len(lines))
-
-	for i, line := range lines {
-		line = strings.Replace(line, ":", "", -1)
-		split := strings.Split(line, " ")
-		equation := Equation{}
-		num, err := strconv.Atoi(split[0])
-		check(err)
-		equation.answer = num
-		split = split[1:] // Remove the total number from the split
-		equation.operands = make([]int, len(split))
-		for j, s := range split {
-			num, err := strconv.Atoi(s)
-			check(err)
-			equation.operands[j] = num
-		}
-		equations[i] = equation
-	}
-
-	sum := 0
-	for _, equation := range equations {
-		if testAllPossibleEquations(equation.operands, equation.answer, []string{"add", "mul", "concat"}) {
-			sum += equation.answer
-		}
-	}
-
-	return sum
 }

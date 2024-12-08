@@ -7,56 +7,37 @@ import (
 )
 
 func Day2Level1(inputFileName string) int {
-	// Read the input file
-	lines := readFileAsLines(inputFileName)
+
+	levels := parseInputDay2(inputFileName)
 
 	safeLevel := 0
-	for _, line := range lines {
-		if checkLevel(line) {
+	for _, level := range levels {
+		if checkLevel(level, false, -1) {
 			safeLevel++
 		}
 	}
-	
+
 	return safeLevel
 }
 
-func checkLevel(level string) (isSafe bool) {
-	levelSteps := strings.Split(level, " ")
+func Day2Level2(inputFileName string) int {
 
-	lastValue := 0
-	isDecreasing := false
-	for i, step := range levelSteps {
-		value, err := strconv.Atoi(step)
-		check(err)
-		if i == 0 {
-			lastValue = value
-		} else {
-			diff := int(math.Abs(float64(value) - float64(lastValue)))
-			if diff == 0 {
-				return false
-			}
-			if diff > 3 {
-				return false
-			}
-			if i == 1 {
-				isDecreasing = lastValue > value
-			} else {
-				if (isDecreasing && lastValue < value) || (!isDecreasing && lastValue > value) {
-					return false
-				}
-			}
-			lastValue = value
+	levels := parseInputDay2(inputFileName)
+
+	safeLevel := 0
+	for _, level := range levels {
+		if checkLevel(level, true, -1) {
+			safeLevel++
 		}
 	}
 
-	return true
+	return safeLevel
 }
 
-func Day2Level2(inputFileName string) int {
-	// Read the input file
+func parseInputDay2(inputFileName string) [][]int {
 	lines := readFileAsLines(inputFileName)
+	levels := make([][]int, 0)
 
-	safeLevel := 0
 	for _, line := range lines {
 		level := make([]int, 0)
 		levelSteps := strings.Split(line, " ")
@@ -65,48 +46,44 @@ func Day2Level2(inputFileName string) int {
 			check(err)
 			level = append(level, value)
 		}
-		if checkLevel2(level) {
-			safeLevel++
-		} else {
-			buffer := make([]int, len(level))
-			for i := range level {
-				copy(buffer, level)
-				changedLevel := append(buffer[0:i], buffer[i+1:]...)
-				if checkLevel2(changedLevel) {
-					safeLevel++
-					break
-				}
-			}
-		}
+		levels = append(levels, level)
 	}
-	
-	return safeLevel
+
+	return levels
 }
 
-func checkLevel2(level []int) (isSafe bool) {
-	lastValue := 0
-	isDecreasing := false
-	for i, step := range level {
-		if i == 0 {
-			lastValue = step
-		} else {
-			diff := int(math.Abs(float64(step) - float64(lastValue)))
-			if diff == 0 {
-				return false
-			}
-			if diff > 3 {
-				return false
-			}
-			if i == 1 {
-				isDecreasing = lastValue > step
-			} else {
-				if (isDecreasing && lastValue < step) || (!isDecreasing && lastValue > step) {
-					return false
-				}
-			}
-			lastValue = step
+func checkLevel(level []int, extened bool, removeIdx int) bool {
+	buffer := make([]int, len(level))
+	copy(buffer, level)
+	if len(level) == removeIdx {
+		return false
+	}
+	if removeIdx != -1 {
+		level = append(level[:removeIdx], level[removeIdx+1:]...)
+	}
+	lastValue := level[0]
+	isDecreasing := lastValue > level[1]
+	isSafe := true
+	for _, step := range level[1:] {
+		diff := int(math.Abs(float64(step) - float64(lastValue)))
+		if diff == 0 {
+			isSafe = false
+			break
 		}
+		if diff > 3 {
+			isSafe = false
+			break
+		}
+		if (isDecreasing && lastValue < step) || (!isDecreasing && lastValue > step) {
+			isSafe = false
+			break
+		}
+		lastValue = step
 	}
 
-	return true
+	if !isSafe && extened {
+		return checkLevel(buffer, true, removeIdx+1)
+	}
+
+	return isSafe
 }
