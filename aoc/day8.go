@@ -11,16 +11,16 @@ type Position struct {
 	posY int
 }
 
-var reDay8 = regexp.MustCompile(`\d|\w`)
-
 func Day8Level1(inputFileName string) int {
 	lines := readFileAsLines(inputFileName)
 
 	antennas := make(map[string][]Position, 0)
 	antinodes := make(map[Position]bool, 0)
 
+	re := regexp.MustCompile(`\d|\w`)
+
 	for row, line := range lines {
-		positions := reDay8.FindAllStringIndex(line, -1)
+		positions := re.FindAllStringIndex(line, -1)
 		for _, position := range positions {
 			key := line[position[0]:position[1]]
 			antennas[key] = append(antennas[key], Position{position[0], row})
@@ -113,8 +113,10 @@ func Day8Level2(inputFileName string) int {
 	antennas := make(map[string][]Position, 0)
 	antinodes := make(map[Position]bool, 0)
 
+	re := regexp.MustCompile(`\d|\w`)
+
 	for row, line := range lines {
-		positions := reDay8.FindAllStringIndex(line, -1)
+		positions := re.FindAllStringIndex(line, -1)
 		for _, position := range positions {
 			key := line[position[0]:position[1]]
 			antennas[key] = append(antennas[key], Position{position[0], row})
