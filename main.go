@@ -17,7 +17,7 @@ type AoCDay struct {
 	Levels []AoCLevel
 }
 
-var lastDay int = 7
+var lastDay int = 8
 var debugMode bool = false
 
 var funcs = map[string]func(string) int{
@@ -35,6 +35,8 @@ var funcs = map[string]func(string) int{
 	"Day6Level2": aoc.Day6Level2,
 	"Day7Level1": aoc.Day7Level1,
 	"Day7Level2": aoc.Day7Level2,
+	"Day8Level1": aoc.Day8Level1,
+	"Day8Level2": aoc.Day8Level2,
 }
 
 func main() {
@@ -91,11 +93,12 @@ func executeDay(day AoCDay) {
 }
 
 func executeLevel(level AoCLevel) {
-	start := time.Now()
+	t0 := time.Now()
 	if level.isExample {
 		fmt.Print("Solution Example: ", level.function(level.inputFileName))
 	} else {
 		fmt.Print("Solution: ", level.function(level.inputFileName))
 	}
-	fmt.Println(", Runtime", time.Since(start))
+	t1 := time.Now()
+	fmt.Println(", Runtime", t1.Sub(t0))
 }
