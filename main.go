@@ -17,8 +17,8 @@ type AoCDay struct {
 	Levels []AoCLevel
 }
 
-var lastDay int = 9
-var debugMode bool = false
+var lastDay int = 10
+var debugMode bool = true
 
 var funcs = map[string]func(string) int{
 	"Day1Level1": aoc.Day1Level1,
@@ -39,6 +39,8 @@ var funcs = map[string]func(string) int{
 	"Day8Level2": aoc.Day8Level2,
 	"Day9Level1": aoc.Day9Level1,
 	"Day9Level2": aoc.Day9Level2,
+	"Day10Level1": aoc.Day10Level1,
+	"Day10Level2": aoc.Day10Level2,
 }
 
 func main() {
