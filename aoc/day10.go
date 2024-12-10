@@ -15,7 +15,9 @@ func Day10Level1(inputFileName string) int {
 
 	sum := 0
 	for _, startTrail := range startTrails {
-		sum += testAllPaths(matrix, startTrail)
+		paths := make(map[Coordinate]bool)
+		testAllPaths(matrix, startTrail, paths)
+		sum += len(paths)
 	}
 
 	return sum
@@ -23,7 +25,15 @@ func Day10Level1(inputFileName string) int {
 
 func Day10Level2(inputFileName string) int {
 
-	return 0
+	matrix, startTrails := parseInputDay10(inputFileName)
+
+	sum := 0
+	for _, startTrail := range startTrails {
+		paths := make(map[Coordinate]bool)
+		sum += testAllPaths(matrix, startTrail, paths)
+	}
+
+	return sum
 }
 
 func parseInputDay10(inputFileName string) ([][]int, []Coordinate) {
@@ -47,18 +57,18 @@ func parseInputDay10(inputFileName string) ([][]int, []Coordinate) {
 	return matrix, startTrails
 }
 
-func testAllPaths(matrix [][]int, currentTile Coordinate) int {
+func testAllPaths(matrix [][]int, currentTile Coordinate, res map[Coordinate]bool) int {
 	if matrix[currentTile.y][currentTile.x] == 9 {
+		res[currentTile] = true
 		return 1
 	}
 
 	neibours := getNeibours(matrix, currentTile)
-	posVal := matrix[currentTile.y][currentTile.x]
 
 	sum := 0
 	for _, neibour := range neibours {
-		if posVal+1 == matrix[neibour.y][neibour.x] {
-			sum += testAllPaths(matrix, neibour)
+		if matrix[currentTile.y][currentTile.x]+1 == matrix[neibour.y][neibour.x] {
+			sum += testAllPaths(matrix, neibour, res)
 		}
 	}
 

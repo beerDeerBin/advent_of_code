@@ -18,7 +18,7 @@ type AoCDay struct {
 }
 
 var lastDay int = 10
-var debugMode bool = true
+var debugMode bool = false
 
 var funcs = map[string]func(string) int{
 	"Day1Level1": aoc.Day1Level1,
