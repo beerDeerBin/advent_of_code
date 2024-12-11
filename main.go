@@ -17,30 +17,32 @@ type AoCDay struct {
 	Levels []AoCLevel
 }
 
-var lastDay int = 10
+var lastDay int = 11
 var debugMode bool = false
 
 var funcs = map[string]func(string) int{
-	"Day1Level1": aoc.Day1Level1,
-	"Day1Level2": aoc.Day1Level2,
-	"Day2Level1": aoc.Day2Level1,
-	"Day2Level2": aoc.Day2Level2,
-	"Day3Level1": aoc.Day3Level1,
-	"Day3Level2": aoc.Day3Level2,
-	"Day4Level1": aoc.Day4Level1,
-	"Day4Level2": aoc.Day4Level2,
-	"Day5Level1": aoc.Day5Level1,
-	"Day5Level2": aoc.Day5Level2,
-	"Day6Level1": aoc.Day6Level1,
-	"Day6Level2": aoc.Day6Level2,
-	"Day7Level1": aoc.Day7Level1,
-	"Day7Level2": aoc.Day7Level2,
-	"Day8Level1": aoc.Day8Level1,
-	"Day8Level2": aoc.Day8Level2,
-	"Day9Level1": aoc.Day9Level1,
-	"Day9Level2": aoc.Day9Level2,
+	"Day1Level1":  aoc.Day1Level1,
+	"Day1Level2":  aoc.Day1Level2,
+	"Day2Level1":  aoc.Day2Level1,
+	"Day2Level2":  aoc.Day2Level2,
+	"Day3Level1":  aoc.Day3Level1,
+	"Day3Level2":  aoc.Day3Level2,
+	"Day4Level1":  aoc.Day4Level1,
+	"Day4Level2":  aoc.Day4Level2,
+	"Day5Level1":  aoc.Day5Level1,
+	"Day5Level2":  aoc.Day5Level2,
+	"Day6Level1":  aoc.Day6Level1,
+	"Day6Level2":  aoc.Day6Level2,
+	"Day7Level1":  aoc.Day7Level1,
+	"Day7Level2":  aoc.Day7Level2,
+	"Day8Level1":  aoc.Day8Level1,
+	"Day8Level2":  aoc.Day8Level2,
+	"Day9Level1":  aoc.Day9Level1,
+	"Day9Level2":  aoc.Day9Level2,
 	"Day10Level1": aoc.Day10Level1,
 	"Day10Level2": aoc.Day10Level2,
+	"Day11Level1": aoc.Day11Level1,
+	"Day11Level2": aoc.Day11Level2,
 }
 
 func main() {
